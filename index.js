@@ -6,9 +6,7 @@ const express = require('express');
 
 //import cors
 const cors = require('cors');
-
-const db = require('./DB/connection')
-
+const mongoose = require('mongoose')
 const router = require('./Router/route')
 
 //create a backend application using express
@@ -23,7 +21,15 @@ Server.use(router)
 
 const PORT = 4000 || process.env.PORT
 
-Server.listen(PORT,()=>{
-    console.log(('listening on port' +PORT));
-})
+mongoose.connect('mongodb+srv://snjy9096:luminar@cluster0.qcqukvd.mongodb.net/barkavenue?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    Server.listen(PORT, () => {
+        console.log(`Server running at Port ${PORT}`);
+        console.log('MongoDB connected successfully')
+    })
 
+}).catch((err) => {
+    console.log(err);
+})
